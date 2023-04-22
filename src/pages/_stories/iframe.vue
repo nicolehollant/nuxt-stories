@@ -5,8 +5,7 @@
 </template>
 
 <script setup lang="tsx">
-import { MyButtonStory } from '../../stories'
-import { DebuggerStory } from '../../stories'
+import { MyButtonStory, DebuggerStory } from '../../stories'
 const DefaultComponent = defineComponent(() => () => <div>pls select component</div>)
 
 const tryParseOrEmptyObject = (val: string) => {

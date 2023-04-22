@@ -1,5 +1,7 @@
 import MyButton from '~/components/MyButton.vue'
 
+console.log(MyButton)
+
 export default defineStory({
   component: MyButton,
   title: 'UI/MyButton',

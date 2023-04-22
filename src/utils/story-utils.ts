@@ -45,7 +45,7 @@ const generateControls = (
 } =>
   Object.fromEntries(
     Object.entries(component).map(([key, value]: [string, any]) => {
-      return [key, { required: value.required, type: propFnStringToPropType(value.type?.toString()) }]
+      return [key, { required: value?.required, type: propFnStringToPropType(value?.type?.toString()) }]
     })
   )
 
@@ -56,7 +56,7 @@ const generateArgs = (
 } =>
   Object.fromEntries(
     Object.entries(component).map(([key, value]: [string, any]) => {
-      return [key, propTypeToControlValue(propFnStringToPropType(value.type?.toString()))]
+      return [key, propTypeToControlValue(propFnStringToPropType(value?.type?.toString()))]
     })
   )
 
