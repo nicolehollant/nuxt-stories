@@ -1,0 +1,23 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@types/js-beautify": "^1.13.3",
+    "@types/splitpanes": "^2.2.1",
+    "nuxt": "3.4.2",
+    "nuxt-icon": "^0.1.8"
+  },
+  "dependencies": {
+    "@formkit/auto-animate": "^1.0.0-beta.6",
+    "@nuxtjs/tailwindcss": "^6.6.6",
+    "highlight.js": "^11.7.0",
+    "nanoid": "^4.0.0",
+    "senp-ui": "^0.0.33"
+  }
+}
