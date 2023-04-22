@@ -1,7 +1,63 @@
 # nuxt-stories
 
+> https://nuxt-stories.vercel.app/_stories/
+
 hopefully could be good at some point
 
+
+## Todo:
+
+- make controls better
+- actually make a module
+- ig we need to do controls w codegen, forgot stuff compiles like this:
+```js
+import {a as o, o as p, b as r, t as e} from "./entry.5e7b0b8a.js";
+const t = {
+    class: "p-4 rounded-lg text-neutral-200 text-sm"
+}
+  , _ = o({
+    __name: "Debugger",
+    props: {
+        prop_string: null,
+        prop_object: null,
+        prop_null: null,
+        prop_number: null,
+        prop_boolean: {
+            type: Boolean
+        },
+        prop_function: {
+            type: Function
+        },
+        prop_undefined: null,
+        prop_array: null
+    },
+    setup(n) {
+        return (l,u)=>(p(),
+        r("pre", t, e({
+            prop_string: n.prop_string,
+            prop_object: n.prop_object,
+            prop_null: n.prop_null,
+            prop_number: n.prop_number,
+            prop_boolean: n.prop_boolean,
+            prop_function: n.prop_function,
+            prop_undefined: n.prop_undefined,
+            prop_array: n.prop_array
+        }), 1))
+    }
+});
+export {_};
+```
+- support different sized canvases
+- support a resizeable canvas
+- support light/dark mode
+- support controls on the right?
+- support custom controls ?
+- sync query string between iframe and main page
+- get rid of tailwind probably
+- nuxt generate stories only?
+- nuxt generate and ignore stories?
+- improve navbar (maybe use default exported story as roots, and put other exports under it?)
+- write docs (eventually) and have more examples?
 
 <details>
 
