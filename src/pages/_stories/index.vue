@@ -20,7 +20,7 @@
     <div
       class="w-full h-full grid"
       :class="{
-        'grid-rows-[auto,minmax(0,1fr),minmax(auto,500px)]': !!activeComponent && state.controls.open,
+        'grid-rows-[auto,minmax(0,1fr),minmax(0px,500px)]': !!activeComponent && state.controls.open,
         'grid-rows-[auto,minmax(0,1fr),auto]': !state.controls.open,
       }"
     >
@@ -31,11 +31,7 @@
         :src="`/_stories/iframe?component=${query.component}&controls=${JSON.stringify(query.controls)}`"
         class="w-full h-full p-4"
       />
-      <section
-        v-if="activeComponent"
-        title="controls"
-        class="w-full overflow-auto border-t border-neutral-600 relative h-max"
-      >
+      <section v-if="activeComponent" class="w-full overflow-auto border-t border-neutral-600 relative h-full">
         <header
           class="w-full p-4 bg-black/50 backdrop-blur sticky top-0 border-b z-10 border-neutral-800 flex justify-between items-center"
         >
@@ -48,11 +44,21 @@
             ></Icon>
           </button>
         </header>
-        <div class="grid gap-2 p-4" v-if="state.controls.open">
-          <label v-for="(control, label) in activeComponent.controls" class="grid gap-1">
-            <p>{{ label }}, {{ control.type }} ({{ control.required ? 'required' : 'optional' }})</p>
+        <div class="grid p-4" v-if="state.controls.open">
+          <label
+            v-for="(control, label, index) in activeComponent.controls"
+            class="grid gap-1 py-6"
+            :class="{ 'border-t border-neutral-900': index > 0 }"
+          >
+            <p>
+              {{ label }}
+              <span class="text-neutral-500 text-xs">({{ control.required ? 'required' : 'optional' }})</span>
+            </p>
+            <pre
+              class="text-[10px] text-neutral-300 p-1 rounded-lg bg-black/40 my-0.5"
+            ><code>{{ control.type }}</code></pre>
             <StoryControl
-              :type="activeComponent.controls[label].type"
+              :type="activeComponent.controls[label].type?.controlType"
               :model-value="(query.controls as any)?.[label] ?? (label in activeComponent.args ? activeComponent.args[label] : '')"
               @update:model-value="(val: any) => (query.controls as any)[label] = val"
             />

@@ -7,9 +7,20 @@ hopefully could be good at some point
 
 ## Todo:
 
-- make controls better
-- actually make a module
-- ig we need to do controls w codegen, forgot stuff compiles like this:
+- [ ] make controls better
+- [ ] actually make a module
+- [ ] support different sized canvases
+- [ ] support a resizeable canvas
+- [ ] support light/dark mode
+- [ ] support controls on the right?
+- [ ] support custom controls ?
+- [ ] sync query string between iframe and main page
+- [ ] get rid of tailwind probably
+- [ ] nuxt generate stories only?
+- [ ] nuxt generate and ignore stories?
+- [ ] improve navbar (maybe use default exported story as roots, and put other exports under it?)
+- [ ] write docs (eventually) and have more examples?
+- [x] ig we need to do controls w codegen, forgot stuff compiles like this:
 ```js
 import {a as o, o as p, b as r, t as e} from "./entry.5e7b0b8a.js";
 const t = {
@@ -47,17 +58,6 @@ const t = {
 });
 export {_};
 ```
-- support different sized canvases
-- support a resizeable canvas
-- support light/dark mode
-- support controls on the right?
-- support custom controls ?
-- sync query string between iframe and main page
-- get rid of tailwind probably
-- nuxt generate stories only?
-- nuxt generate and ignore stories?
-- improve navbar (maybe use default exported story as roots, and put other exports under it?)
-- write docs (eventually) and have more examples?
 
 <details>
 
@@ -109,3 +109,5 @@ npm run preview
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
 
 </details>
+
+shoutouts to https://github.com/andrewcourtice/vite-plugin-vue-docgen/blob/main/test/index.test.ts but i didn't wanna fight npm today 

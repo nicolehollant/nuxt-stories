@@ -22,6 +22,6 @@ defineProps<{
   prop_boolean: boolean
   prop_function: () => {}
   prop_undefined: undefined
-  prop_array: []
+  prop_array: any[]
 }>()
 </script>
