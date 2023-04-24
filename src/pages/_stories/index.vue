@@ -2,7 +2,7 @@
   <div class="grid grid-cols-[auto,minmax(0,1fr)] h-full">
     <aside class="p-4 border-r border-neutral-600 h-full">
       <nav class="space-y-2">
-        <li v-for="component in components">
+        <li class="list-none" v-for="component in components">
           <button
             @click="
               () => {
@@ -15,6 +15,26 @@
           >
             {{ component.label }}
           </button>
+          <ul class="ml-3 mt-1" v-if="query.component.split('_')[0] === component.value.split('_')[0]">
+            <li
+              v-for="childComponent in components.find(
+                (comp) => comp.value.split('_')[0] === query.component.split('_')[0]
+              )?.children"
+            >
+              <button
+                @click="
+                  () => {
+                    query.component = childComponent.value
+                    query.controls = {}
+                  }
+                "
+                class="text-xs sm:text-sm"
+                :class="{ 'underline text-sky-300': query.component === childComponent.value }"
+              >
+                {{ childComponent.label }}
+              </button>
+            </li>
+          </ul>
         </li>
       </nav>
     </aside>
@@ -93,7 +113,7 @@
           <label
             v-for="(control, label, index) in activeComponent.controls"
             class="grid gap-1 py-6"
-            :class="{ 'border-t border-neutral-900': index > 0 }"
+            :class="{ 'border-t border-neutral-900': index! > 0 }"
           >
             <p>
               {{ label }}
@@ -118,7 +138,7 @@
 
 <script setup lang="tsx">
 import { DraggableResizableVue, DraggableResizableContainer } from 'draggable-resizable-vue3'
-import { MyButtonStory, DebuggerStory, MyButtonJsPropsStory } from '../../stories'
+import { getStories } from '#stories'
 
 const tryParseOrEmptyObject = (val: string) => {
   try {
@@ -128,14 +148,26 @@ const tryParseOrEmptyObject = (val: string) => {
   }
 }
 
-const components = [
-  { label: 'Home', value: '' },
-  { label: 'MyButton - default', value: 'my-button_default' },
-  { label: 'MyButton - hello', value: 'my-button_hello' },
-  { label: 'MyButton - world', value: 'my-button_world' },
-  { label: 'MyButtonJSProps - default', value: 'my-button-js-props_default' },
-  { label: 'Debugger - world', value: 'debugger_default' },
-]
+const kebabCase = (str: string) =>
+  str
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase()
+
+const stories = getStories()
+
+const components = Object.entries(stories).map(([storyGroup, storyExports]) => {
+  return {
+    label: storyGroup,
+    value: 'default' in storyExports ? [kebabCase(storyGroup), 'default'].join('_') : storyGroup,
+    children: Object.keys(storyExports)
+      .filter((storyName) => storyName != 'default')
+      .map((storyName) => ({
+        label: storyName,
+        value: [kebabCase(storyGroup), kebabCase(storyName)].join('_'),
+      })),
+  }
+})
 
 const resizableElement = ref({
   x: 0,
@@ -164,20 +196,12 @@ const activeComponent = computed(() => {
   if (!query.component) {
     return null
   }
-  if (query.component === 'my-button_default') {
-    return MyButtonStory.default
-  }
-  if (query.component === 'my-button_hello') {
-    return MyButtonStory.hello
-  }
-  if (query.component === 'my-button_world') {
-    return MyButtonStory.world
-  }
-  if (query.component === 'debugger_default') {
-    return DebuggerStory.default
-  }
-  if (query.component === 'my-button-js-props_default') {
-    return MyButtonJsPropsStory.default
+  for (const [storyGroup, storyExports] of Object.entries(stories)) {
+    for (const [storyName, story] of Object.entries(storyExports)) {
+      if (query.component === [kebabCase(storyGroup), storyName].join('_')) {
+        return story
+      }
+    }
   }
   return null
 })

@@ -5,7 +5,8 @@
 </template>
 
 <script setup lang="tsx">
-import { MyButtonStory, DebuggerStory, MyButtonJsPropsStory } from '../../stories'
+import { getStories } from '#stories'
+
 const DefaultComponent = defineComponent(() => () => <div>pls select component</div>)
 
 const tryParseOrEmptyObject = (val: string) => {
@@ -16,26 +17,27 @@ const tryParseOrEmptyObject = (val: string) => {
   }
 }
 
+const kebabCase = (str: string) =>
+  str
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/[\s_]+/g, '-')
+    .toLowerCase()
+
 const route = useRoute()
+
+const stories = getStories()
+
 const Comp = computed(() => {
   if (!route.query) {
     return DefaultComponent
   }
   const controls = tryParseOrEmptyObject(route.query.controls + '')
-  if (route.query.component === 'my-button_default') {
-    return MyButtonStory.default.render({ ...MyButtonStory.default.args, ...controls })
-  }
-  if (route.query.component === 'my-button_hello') {
-    return MyButtonStory.hello.render({ ...MyButtonStory.hello.args, ...controls })
-  }
-  if (route.query.component === 'my-button_world') {
-    return MyButtonStory.world.render({ ...MyButtonStory.world.args, ...controls })
-  }
-  if (route.query.component === 'my-button-js-props_default') {
-    return MyButtonJsPropsStory.default.render({ ...MyButtonJsPropsStory.default.args, ...controls })
-  }
-  if (route.query.component === 'debugger_default') {
-    return DebuggerStory.default.render({ ...DebuggerStory.default.args, ...controls })
+  for (const [storyGroup, storyExports] of Object.entries(stories)) {
+    for (const [storyName, story] of Object.entries(storyExports)) {
+      if (route.query.component === [kebabCase(storyGroup), storyName].join('_')) {
+        return story.render({ ...story.args, ...controls })
+      }
+    }
   }
   return DefaultComponent
 })

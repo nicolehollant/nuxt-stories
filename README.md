@@ -7,7 +7,15 @@ hopefully could be good at some point
 
 ## Todo:
 
-- [ ] actually make a module
+higher priority:
+
+- [ ] make this a monorepo (docs, module, layer, playground, any recipes or whatever idk)
+- [ ] publish the module
+- [ ] separate UI out into a layer
+- [ ] make module better ?
+
+lower priority:
+
 - [ ] support different sized canvases
 - [ ] support light/dark mode
 - [ ] support controls on the right?
@@ -18,6 +26,10 @@ hopefully could be good at some point
 - [ ] improve navbar (maybe use default exported story as roots, and put other exports under it?)
 - [ ] write docs (eventually) and have more examples?
 - [ ] make controls better
+
+## Todone:
+
+- [x] actually make a module
 - [x] sync query string between iframe and main page
 - [x] support a resizeable canvas
 - [x] ig we need to do controls w codegen, forgot stuff compiles like this:

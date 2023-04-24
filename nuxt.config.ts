@@ -3,7 +3,7 @@ import vueDocgenPlugin from './module/vue-docgen-vite-plugin'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   // extends: ['senp-ui'],
-  modules: ['@nuxtjs/tailwindcss', 'nuxt-icon'],
+  modules: ['@nuxtjs/tailwindcss', 'nuxt-icon', './module/nuxt-stories'],
   srcDir: './src',
   build: {
     transpile: ['highlight.js', 'vue-docgen-api', 'draggable-resizable-vue3'],

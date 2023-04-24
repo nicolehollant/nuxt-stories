@@ -20,8 +20,12 @@
     "@nuxtjs/tailwindcss": "^6.6.6",
     "@vitejs/plugin-vue": "^4.1.0",
     "draggable-resizable-vue3": "^1.0.94-beta",
+    "fast-glob": "^3.2.12",
     "highlight.js": "^11.7.0",
     "nanoid": "^4.0.0",
-    "senp-ui": "^0.0.33"
+    "outdent": "^0.8.0",
+    "pathe": "^1.1.0",
+    "senp-ui": "^0.0.33",
+    "ufo": "^1.1.1"
   }
 }
