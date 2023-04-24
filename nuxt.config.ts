@@ -6,7 +6,7 @@ export default defineNuxtConfig({
   modules: ['@nuxtjs/tailwindcss', 'nuxt-icon'],
   srcDir: './src',
   build: {
-    transpile: ['highlight.js', 'vue-docgen-api'],
+    transpile: ['highlight.js', 'vue-docgen-api', 'draggable-resizable-vue3'],
   },
   vite: {
     // plugins: [vuePlugin(), vueDocgenPlugin()],
