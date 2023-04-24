@@ -1,6 +1,6 @@
 <template>
   <button
-    class="p-4 rounded-lg"
+    class="p-4 rounded-lg text-sm sm:text-base md:text-lg lg:text-xl lg:p-6"
     :class="{
       'bg-blue-600 text-white': theme === 'primary',
       'border border-blue-600 text-blue-400': theme === 'secondary',

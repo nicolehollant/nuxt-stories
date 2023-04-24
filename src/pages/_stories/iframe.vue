@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="tsx">
-import { MyButtonStory, DebuggerStory } from '../../stories'
+import { MyButtonStory, DebuggerStory, MyButtonJsPropsStory } from '../../stories'
 const DefaultComponent = defineComponent(() => () => <div>pls select component</div>)
 
 const tryParseOrEmptyObject = (val: string) => {
@@ -30,6 +30,9 @@ const Comp = computed(() => {
   }
   if (route.query.component === 'my-button_world') {
     return MyButtonStory.world.render({ ...MyButtonStory.world.args, ...controls })
+  }
+  if (route.query.component === 'my-button-js-props_default') {
+    return MyButtonJsPropsStory.default.render({ ...MyButtonJsPropsStory.default.args, ...controls })
   }
   if (route.query.component === 'debugger_default') {
     return DebuggerStory.default.render({ ...DebuggerStory.default.args, ...controls })

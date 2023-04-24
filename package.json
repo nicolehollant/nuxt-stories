@@ -19,6 +19,7 @@
     "@formkit/auto-animate": "^1.0.0-beta.6",
     "@nuxtjs/tailwindcss": "^6.6.6",
     "@vitejs/plugin-vue": "^4.1.0",
+    "draggable-resizable-vue3": "^1.0.94-beta",
     "highlight.js": "^11.7.0",
     "nanoid": "^4.0.0",
     "senp-ui": "^0.0.33"

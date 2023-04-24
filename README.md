@@ -7,19 +7,19 @@ hopefully could be good at some point
 
 ## Todo:
 
-- [ ] make controls better
 - [ ] actually make a module
 - [ ] support different sized canvases
-- [ ] support a resizeable canvas
 - [ ] support light/dark mode
 - [ ] support controls on the right?
 - [ ] support custom controls ?
-- [ ] sync query string between iframe and main page
 - [ ] get rid of tailwind probably
 - [ ] nuxt generate stories only?
 - [ ] nuxt generate and ignore stories?
 - [ ] improve navbar (maybe use default exported story as roots, and put other exports under it?)
 - [ ] write docs (eventually) and have more examples?
+- [ ] make controls better
+- [x] sync query string between iframe and main page
+- [x] support a resizeable canvas
 - [x] ig we need to do controls w codegen, forgot stuff compiles like this:
 ```js
 import {a as o, o as p, b as r, t as e} from "./entry.5e7b0b8a.js";

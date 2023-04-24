@@ -1,34 +1,42 @@
 <template>
-  <TextInput
-    v-if="type === 'string'"
+  <Select
+    v-if="type === 'union' && elements?.length"
     :model-value="modelValue"
+    :options="elements.map((element) => ({ value: element, label: element + '' }))"
+    @update:model-value="(v: string) => $emit('update:modelValue', v)"
+    :label="label"
+  ></Select>
+  <TextInput
+    v-else-if="controlType === 'string'"
+    :model-value="modelValue"
+    multiline
     @update:model-value="(v: string) => $emit('update:modelValue', v)"
     :label="label"
   ></TextInput>
   <TextInput
-    v-else-if="type === 'number'"
+    v-else-if="controlType === 'number'"
     :model-value="modelValue"
     @update:model-value="(v: string) => $emit('update:modelValue', Number(v))"
   ></TextInput>
   <Checkbox
-    v-else-if="type === 'boolean'"
+    v-else-if="controlType === 'boolean'"
     :model-value="modelValue"
     @update:model-value="(v: boolean) => $emit('update:modelValue', v)"
   ></Checkbox>
   <TextInput
-    v-else-if="type === 'object'"
+    v-else-if="controlType === 'object'"
     multiline
     :model-value="typeof modelValue == 'object' ? JSON.stringify(modelValue, null, 2) : modelValue"
     @update:model-value="(v: string) => $emit('update:modelValue', tryParseOrGiveStringValue(v))"
   ></TextInput>
   <TextInput
-    v-else-if="type === 'array'"
+    v-else-if="controlType === 'array'"
     multiline
     :model-value="typeof modelValue == 'object' ? JSON.stringify(modelValue, null, 2) : modelValue"
     @update:model-value="(v: string) => $emit('update:modelValue', tryParseOrGiveStringValue(v))"
   ></TextInput>
   <TextInput
-    v-else-if="type === 'null'"
+    v-else-if="controlType === 'null'"
     multiline
     :model-value="modelValue"
     @update:model-value="(v: string) => $emit('update:modelValue', v === '' ? null : tryParseOrGiveStringValue(v))"
@@ -45,7 +53,9 @@
 
 <script setup lang="ts">
 defineProps<{
-  type: 'string' | 'number' | 'boolean' | 'object' | 'null' | 'array' | 'function'
+  type: string
+  controlType: 'string' | 'number' | 'boolean' | 'object' | 'null' | 'array' | 'function'
+  elements?: any[]
   modelValue: any
   label?: string
 }>()

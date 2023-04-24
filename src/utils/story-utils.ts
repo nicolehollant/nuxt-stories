@@ -78,12 +78,16 @@ const parseComponentDocProps = (type: any): { type: string; controlType: Control
         ) &&
         typeof firstElementParsed in primitiveTypeMap
       ) {
-        return { type: type?.name, controlType: (primitiveTypeMap as any)[typeof firstElementParsed].controlType }
+        return {
+          type: type?.name,
+          controlType: (primitiveTypeMap as any)[typeof firstElementParsed].controlType,
+          elements: type.elements.map(({ name }: any) => tryParseOrUndefined(name)),
+        }
       }
       return {
         type: type?.name,
         controlType: 'null',
-        elements: type.elements.map(({ name }: any) => tryParseOrUndefined(name)).join(' | '),
+        elements: type.elements.map(({ name }: any) => tryParseOrUndefined(name)),
       }
     }
     return { type: type?.name, controlType: 'null', elements: undefined }
