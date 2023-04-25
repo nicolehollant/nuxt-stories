@@ -1,0 +1,31 @@
+{
+  "private": true,
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
+  },
+  "devDependencies": {
+    "@rollup/pluginutils": "^5.0.2",
+    "@types/js-beautify": "^1.13.3",
+    "@types/splitpanes": "^2.2.1",
+    "nuxt": "3.4.2",
+    "nuxt-icon": "^0.1.8",
+    "vue-docgen-api": "^4.69.0"
+  },
+  "dependencies": {
+    "@formkit/auto-animate": "^1.0.0-beta.6",
+    "@nuxtjs/tailwindcss": "^6.6.6",
+    "@vitejs/plugin-vue": "^4.1.0",
+    "draggable-resizable-vue3": "^1.0.94-beta",
+    "fast-glob": "^3.2.12",
+    "highlight.js": "^11.7.0",
+    "nanoid": "^4.0.0",
+    "outdent": "^0.8.0",
+    "pathe": "^1.1.0",
+    "senp-ui": "^0.0.33",
+    "ufo": "^1.1.1"
+  }
+}

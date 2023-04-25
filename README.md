@@ -4,14 +4,13 @@
 
 hopefully could be good at some point
 
+peep the [repo guide](./REPO_GUIDE.md)
 
 ## Todo:
 
 higher priority:
 
-- [ ] make this a monorepo (docs, module, layer, playground, any recipes or whatever idk)
 - [ ] publish the module
-- [ ] separate UI out into a layer
 - [ ] make module better ?
 
 lower priority:
@@ -26,9 +25,13 @@ lower priority:
 - [ ] improve navbar (maybe use default exported story as roots, and put other exports under it?)
 - [ ] write docs (eventually) and have more examples?
 - [ ] make controls better
+- [ ] make autogen stories more configurable
 
 ## Todone:
 
+- [x] autogen stories for things in components dir
+- [x] make this a monorepo (docs, module, layer, playground, any recipes or whatever idk)
+- [x] separate UI out into a layer
 - [x] actually make a module
 - [x] sync query string between iframe and main page
 - [x] support a resizeable canvas

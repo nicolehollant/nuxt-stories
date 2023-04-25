@@ -1,0 +1,63 @@
+{
+  "name": "@nuxt-fable/module",
+  "author": "Nicole Hollant <nicolehollant@gmail.com>",
+  "version": "0.0.1",
+  "description": "Stories built for nuxt",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicolehollant/nuxt-stories.git"
+  },
+  "license": "MIT",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/types.d.ts",
+      "import": "./dist/module.mjs",
+      "require": "./dist/module.cjs"
+    }
+  },
+  "main": "./dist/module.cjs",
+  "types": "./dist/types.d.ts",
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "bugs": {
+    "url": "https://github.com/nicolehollant/nuxt-stories/issues"
+  },
+  "scripts": {
+    "prepack": "nuxt-module-build --fail-on-warn=false",
+    "dev": "nuxi dev playground",
+    "dev:build": "nuxi build playground",
+    "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
+    "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",
+    "lint": "eslint .",
+    "test": "vitest run",
+    "test:watch": "vitest watch"
+  },
+  "dependencies": {
+    "@nuxt/kit": "^3.4.2",
+    "@rollup/pluginutils": "^5.0.2",
+    "estree-walker": "^3.0.3",
+    "fast-glob": "^3.2.12",
+    "outdent": "^0.8.0",
+    "pathe": "^1.1.0",
+    "picomatch": "^2.3.1",
+    "ufo": "^1.1.1",
+    "vue": "^3.2.47",
+    "vue-docgen-api": "^4.69.0"
+  },
+  "devDependencies": {
+    "@nuxt/eslint-config": "^0.1.1",
+    "@nuxt/module-builder": "^0.3.0",
+    "@nuxt/schema": "^3.4.2",
+    "@nuxt/test-utils": "^3.4.2",
+    "@types/node": "^18",
+    "changelogen": "^0.5.3",
+    "eslint": "^8.38.0",
+    "nuxt": "^3.4.2",
+    "vitest": "^0.30.1"
+  }
+}
