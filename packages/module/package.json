@@ -28,7 +28,8 @@
     "url": "https://github.com/nicolehollant/nuxt-stories/issues"
   },
   "scripts": {
-    "prepack": "nuxt-module-build --fail-on-warn=false",
+    "prepack": "nuxt-module-build",
+    "build": "nuxt-module-build",
     "dev": "nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
