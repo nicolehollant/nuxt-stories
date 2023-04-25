@@ -331,26 +331,48 @@ export default defineNuxtModule<ModuleOptions>({
       nuxt.options.vite.plugins.push(vueDocgenPlugin());
     }
     // vue esm bundler
-    if (!nuxt.options.vite.resolve) {
-      nuxt.options.vite.resolve = {
-        alias: { vue: "vue/dist/vue.esm-bundler.js" },
-      };
-    }
-    if (!nuxt.options.vite.resolve.alias) {
-      nuxt.options.vite.resolve.alias = { vue: "vue/dist/vue.esm-bundler.js" };
-    }
-    if (
-      Array.isArray(nuxt.options.vite.resolve.alias) &&
-      !nuxt.options.vite.resolve.alias.some((alias) => alias.find === "vue")
-    ) {
-      nuxt.options.vite.resolve.alias.push({
-        find: "vue",
-        replacement: "vue/dist/vue.esm-bundler.js",
-      });
-    } else {
-      (nuxt.options.vite.resolve.alias as { [find: string]: string }).vue =
-        "vue/dist/vue.esm-bundler.js";
-    }
+    // if (!nuxt.options.vite.resolve) {
+    //   nuxt.options.vite.resolve = {
+    //     alias: {
+    //       vue: "vue/dist/vue.esm-bundler.js",
+    //       "vue/compiler-sfc": "vue/compiler-sfc/index.js",
+    //       "vue/server-renderer": "vue/server-renderer/index.js",
+    //     },
+    //   };
+    // }
+    // if (!nuxt.options.vite.resolve.alias) {
+    //   nuxt.options.vite.resolve.alias = {
+    //     vue: "vue/dist/vue.esm-bundler.js",
+    //     "vue/compiler-sfc": "vue/compiler-sfc/index.js",
+    //     "vue/server-renderer": "vue/server-renderer/index.js",
+    //   };
+    // }
+    // if (
+    //   Array.isArray(nuxt.options.vite.resolve.alias) &&
+    //   !nuxt.options.vite.resolve.alias.some((alias) => alias.find === "vue")
+    // ) {
+    //   nuxt.options.vite.resolve.alias.push({
+    //     find: "vue",
+    //     replacement: "vue/dist/vue.esm-bundler.js",
+    //   });
+    //   nuxt.options.vite.resolve.alias.push({
+    //     find: "vue/compiler-sfc",
+    //     replacement: "vue/compiler-sfc/index.js",
+    //   });
+    //   nuxt.options.vite.resolve.alias.push({
+    //     find: "vue/server-renderer",
+    //     replacement: "vue/server-renderer/index.js",
+    //   });
+    // } else {
+    //   (nuxt.options.vite.resolve.alias as { [find: string]: string }).vue =
+    //     "vue/dist/vue.esm-bundler.js";
+    //   (nuxt.options.vite.resolve.alias as { [find: string]: string })[
+    //     "vue/compiler-sfc"
+    //   ] = "vue/compiler-sfc/index.js";
+    //   (nuxt.options.vite.resolve.alias as { [find: string]: string })[
+    //     "vue/server-renderer"
+    //   ] = "vue/server-renderer/index.js";
+    // }
 
     // watch stuff
     if (nuxt.options.dev) {

@@ -1,6 +1,9 @@
 {
   "private": true,
   "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
     "release": "lerna publish --no-private"
   },
   "devDependencies": {
