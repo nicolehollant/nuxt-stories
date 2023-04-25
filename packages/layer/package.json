@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "main": "./nuxt.config.ts",
   "scripts": {
+    "install": "pnpm install -w layer",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",

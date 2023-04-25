@@ -1,17 +1,15 @@
 {
   "private": true,
   "scripts": {
-    "install:module": "pnpm --filter module install",
-    "install:layer": "pnpm --filter layer install",
-    "install:apps": "pnpm --filter apps install",
-    "build:module": "pnpm --filter module build",
-    "build:layer": "pnpm --filter layer build",
-    "build:apps": "pnpm --filter apps build",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
     "release": "lerna publish --no-private"
   },
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
   "devDependencies": {
     "lerna": "^6.5.1",
     "turbo": "^1.9.3"

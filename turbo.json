@@ -1,34 +1,33 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "install:module": {
-      "dependsOn": ["^install"]
+    "@nuxt-fable/module#install": {
+      "outputs": []
     },
-    "build:module": {
-      "dependsOn": ["install:module", "^build"],
+    "@nuxt-fable/module#build": {
+      "dependsOn": ["@nuxt-fable/module#install"],
       "outputs": ["dist/**"]
     },
-    "install:layer": {
-      "dependsOn": ["^install", "build:module"],
-      "outputs": ["dist/**"]
+    "@nuxt-fable/layer#install": {
+      "dependsOn": ["@nuxt-fable/module#build"]
     },
-    "build:layer": {
-      "dependsOn": ["install:layer", "^build"],
-      "outputs": ["dist/**"]
-    },
-
-    "install:apps": {
-      "dependsOn": ["^install", "build:layer"],
-      "outputs": ["dist/**"]
-    },
-    "build:apps": {
-      "dependsOn": ["install:apps", "^build"],
+    "@nuxt-fable/layer#build": {
+      "dependsOn": ["@nuxt-fable/layer#install"],
       "outputs": ["dist/**"]
     },
 
-    "deploy": {
-      "dependsOn": ["build:apps"]
+    "@nuxt-fable/example#install": {
+      "dependsOn": ["@nuxt-fable/layer#build"]
     },
+    "@nuxt-fable/example#build": {
+      "dependsOn": ["@nuxt-fable/example#install"],
+      "outputs": ["dist/**"]
+    },
+    "build": {
+      "dependsOn": ["@nuxt-fable/example#build"],
+      "outputs": ["dist/**"]
+    },
+
     "dev": {
       "cache": false
     }

@@ -1,6 +1,8 @@
 {
   "private": true,
+  "name": "@nuxt-fable/example",
   "scripts": {
+    "install": "pnpm install -w apps",
     "build": "nuxt build",
     "dev": "nuxt dev",
     "generate": "nuxt generate",
