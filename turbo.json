@@ -1,12 +1,33 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "build": {
-      "dependsOn": ["^build"],
+    "install:module": {
+      "dependsOn": ["^install"]
+    },
+    "build:module": {
+      "dependsOn": ["install:module", "^build"],
       "outputs": ["dist/**"]
     },
+    "install:layer": {
+      "dependsOn": ["^install", "build:module"],
+      "outputs": ["dist/**"]
+    },
+    "build:layer": {
+      "dependsOn": ["install:layer", "^build"],
+      "outputs": ["dist/**"]
+    },
+
+    "install:apps": {
+      "dependsOn": ["^install", "build:layer"],
+      "outputs": ["dist/**"]
+    },
+    "build:apps": {
+      "dependsOn": ["install:apps", "^build"],
+      "outputs": ["dist/**"]
+    },
+
     "deploy": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build:apps"]
     },
     "dev": {
       "cache": false
