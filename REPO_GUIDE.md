@@ -21,3 +21,9 @@ The `layer` package has the `@nuxt-fable/layer` nuxt module. It uses `@nuxt-fabl
 ## Apps
 
 - WIP
+
+
+
+## Vercel
+
+- the mix of [turbo.json](./turbo.json) and ![configuring vercel](./vercel-build-settings.png) has made me nearly quit web dev
