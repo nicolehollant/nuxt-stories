@@ -134,4 +134,4 @@ Check out the [deployment documentation](https://nuxt.com/docs/getting-started/d
 
 </details>
 
-shoutouts to https://github.com/andrewcourtice/vite-plugin-vue-docgen/blob/main/test/index.test.ts but i didn't wanna fight npm today 
+shoutouts to https://github.com/andrewcourtice/vite-plugin-vue-docgen/blob/main/test/index.test.ts but i didn't wanna fight npm today
