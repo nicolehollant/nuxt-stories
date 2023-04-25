@@ -13,6 +13,14 @@ higher priority:
 - [ ] support slots
 - [ ] publish the module
 - [ ] make module better ?
+- [ ] figure out how to get vercel to work for this...
+  - pipeline should be:
+    - install for the module
+    - build module
+    - install for the layer (can't do this until module is build bc postinstall would fail)
+    - build layer (? maybe this doesnt need to happen)
+    - install for apps
+    - build apps
 
 lower priority:
 
