@@ -1,4 +1,4 @@
-import TextInput from '~/components/TextInput.vue'
+import TextInput from '../components/TextInput.vue'
 
 export default defineStory({
   component: TextInput,

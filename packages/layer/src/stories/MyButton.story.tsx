@@ -1,4 +1,4 @@
-import MyButton from '~/components/MyButton.vue'
+import MyButton from '../components/MyButton.vue'
 
 export default defineStory({
   component: MyButton,

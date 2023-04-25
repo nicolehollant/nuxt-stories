@@ -4,6 +4,7 @@
     "release": "lerna publish --no-private"
   },
   "devDependencies": {
-    "lerna": "^6.5.1"
+    "lerna": "^6.5.1",
+    "turbo": "^1.9.3"
   }
 }

@@ -10,6 +10,7 @@ peep the [repo guide](./REPO_GUIDE.md)
 
 higher priority:
 
+- [ ] support slots
 - [ ] publish the module
 - [ ] make module better ?
 

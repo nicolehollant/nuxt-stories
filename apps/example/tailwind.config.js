@@ -1,6 +1,10 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ['./src/**/*.{vue,html,md}', './node_modules/senp-ui/src/**/*.{vue,html,md}'],
+  content: [
+    './src/**/*.{vue,html,md}',
+    './node_modules/senp-ui/src/**/*.{vue,html,md}',
+    './node_modules/@nuxt-fable/layer/src/**/*.{vue,html,md}',
+  ],
   theme: {
     extend: {
       screens: {
@@ -28,5 +32,10 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/forms'), require('@tailwindcss/aspect-ratio'), require('@tailwindcss/typography')],
+  plugins: [
+    require('@tailwindcss/line-clamp'),
+    require('@tailwindcss/forms'),
+    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/typography'),
+  ],
 }

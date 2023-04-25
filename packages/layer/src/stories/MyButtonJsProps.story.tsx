@@ -1,4 +1,4 @@
-import MyButtonJsProps from '~/components/MyButtonJsProps.vue'
+import MyButtonJsProps from '../components/MyButtonJsProps.vue'
 
 export default defineStory({
   component: MyButtonJsProps,

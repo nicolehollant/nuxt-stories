@@ -5,8 +5,4 @@ export default defineNuxtConfig({
   build: {
     transpile: ['highlight.js', 'vue-docgen-api', 'draggable-resizable-vue3'],
   },
-  components: {
-    global: true,
-    dirs: ['~/components'],
-  },
 })
