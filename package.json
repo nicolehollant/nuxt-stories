@@ -6,16 +6,8 @@
     "lint": "turbo run lint",
     "release": "lerna publish --no-private"
   },
-  "workspaces": [
-    "packages/*",
-    "apps/*"
-  ],
   "devDependencies": {
     "lerna": "^6.6.1",
     "turbo": "^1.9.3"
-  },
-  "dependencies": {
-    "layer": "^0.1.0",
-    "module": "^1.2.5"
   }
 }
