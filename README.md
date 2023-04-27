@@ -10,7 +10,6 @@ peep the [repo guide](./REPO_GUIDE.md)
 
 higher priority:
 
-- [ ] support slots
 - [ ] publish the module
 - [ ] make module better ?
 - [ ] figure out how to get vercel to work for this...
@@ -38,6 +37,7 @@ lower priority:
 
 ## Todone:
 
+- [x] support slots
 - [x] autogen stories for things in components dir
 - [x] make this a monorepo (docs, module, layer, playground, any recipes or whatever idk)
 - [x] separate UI out into a layer

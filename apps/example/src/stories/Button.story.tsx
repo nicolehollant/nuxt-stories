@@ -1,5 +1,4 @@
-// import { defineStory } from '#story-utils'
-import MyButton from '../components/MyButton.vue'
+import { MyButton } from '#components'
 
 export default defineStory({
   component: MyButton,
@@ -9,7 +8,7 @@ export default defineStory({
     theme: 'primary',
   },
   slotArgs: {
-    default: () => <div>hiasjdhfkansdhfa</div>,
+    default: () => <div>some slot content</div>,
   },
 })
 

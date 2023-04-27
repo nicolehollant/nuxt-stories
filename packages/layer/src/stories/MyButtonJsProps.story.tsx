@@ -1,3 +1,4 @@
+// import { defineStory } from '#story-utils'
 import MyButtonJsProps from '../components/MyButtonJsProps.vue'
 
 export default defineStory({
@@ -16,7 +17,7 @@ export const hello = defineStory({
     label: 'hello',
     theme: 'secondary',
   },
-  render: (args) => defineComponent(() => () => <MyButtonJsProps {...args}></MyButtonJsProps>),
+  render: (args) => defineComponent(() => () => <MyButtonJsProps {...args.props}></MyButtonJsProps>),
 })
 
 export const world = defineStory({
@@ -26,5 +27,5 @@ export const world = defineStory({
     label: 'world',
     theme: 'tertiary',
   },
-  render: (args) => defineComponent(() => () => <MyButtonJsProps {...args}></MyButtonJsProps>),
+  render: (args) => defineComponent(() => () => <MyButtonJsProps {...args.props}></MyButtonJsProps>),
 })

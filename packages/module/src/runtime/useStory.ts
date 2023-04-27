@@ -1,5 +1,6 @@
 import { defineComponent, h } from "#imports";
-import type { DefineComponent } from "nuxt/dist/app/compat/capi";
+// import { defineComponent, h, type VNode } from "vue";
+import type { DefineComponent, VNode } from "nuxt/dist/app/compat/capi";
 import type { ComponentDoc } from "vue-docgen-api";
 
 type Component = (abstract new (...args: any) => any) & { props?: any } & {
@@ -19,8 +20,19 @@ type StoryParams<T extends Component> = {
   component: T;
   title: string;
   args?: Partial<InstanceType<T>["$props"]>;
+  slotArgs?: {
+    [slotName in keyof Partial<InstanceType<T>["$slots"]>]?:
+      | Component
+      | VNode
+      | (() => VNode | null)
+      | string
+      | null;
+  };
   controls?: Partial<ReturnType<typeof generateControls>>;
-  render?: (args: InstanceType<T>["$props"]) => DefineComponent;
+  render?: (args: {
+    props: InstanceType<T>["$props"];
+    slots: InstanceType<T>["$slots"];
+  }) => DefineComponent;
 };
 
 type Story<T extends Component> = {
@@ -28,7 +40,19 @@ type Story<T extends Component> = {
   title: string;
   args: InstanceType<T>["$props"];
   controls: ReturnType<typeof generateControls>;
-  render: (args: InstanceType<T>["$props"]) => DefineComponent;
+  slots: {
+    [slotName in keyof Partial<InstanceType<T>["$slots"]>]?:
+      | Component
+      | VNode
+      | (() => VNode | null)
+      | string
+      | null;
+  };
+  slotControls?: ReturnType<typeof generateSlotControls>;
+  render: (args: {
+    props: InstanceType<T>["$props"];
+    slots: InstanceType<T>["$slots"];
+  }) => DefineComponent;
 };
 
 export const tryParseOrDefault = (
@@ -38,7 +62,7 @@ export const tryParseOrDefault = (
   try {
     if (val.startsWith("'") && val.endsWith("'")) {
       // silly hacky nonsense bc we get string default values as "'my string contents'" which is not parseable
-      const replaced = `"${val.slice(1, -1)}"`;
+      const replaced = '"' + val.slice(1, -1) + '"';
       if (typeof tryParseOrDefault(replaced, false) === "string") {
         val = replaced;
       }
@@ -129,7 +153,7 @@ const generateControls = (
     type: ReturnType<typeof parseComponentDocProps>;
   };
 } => {
-  return Object.fromEntries(
+  const props = Object.fromEntries(
     (component.props ?? []).map((prop) => {
       return [
         prop.name,
@@ -140,6 +164,8 @@ const generateControls = (
       ];
     })
   );
+
+  return props;
 };
 
 const generateArgs = (
@@ -147,19 +173,14 @@ const generateArgs = (
 ): {
   [prop: string]: ReturnType<typeof propTypeToControlValue> | undefined;
 } => {
-  return Object.fromEntries(
+  const props = Object.fromEntries(
     (component.props ?? []).map((prop) => {
       const hasDefaultValue = !!prop?.defaultValue;
-      console.log({
-        [prop.name]: hasDefaultValue,
-        defaultValue: prop.defaultValue,
-      });
       const defaultValue = hasDefaultValue
         ? prop.defaultValue!.func
           ? undefined
           : tryParseOrDefault(prop.defaultValue!.value, undefined)
         : undefined;
-      console.log({ defaultValue });
       return [
         prop.name,
         defaultValue ??
@@ -169,6 +190,33 @@ const generateArgs = (
       ];
     })
   );
+  return props;
+};
+
+const generateSlotControls = (
+  component: ComponentDoc
+): {
+  [slot: string]: NonNullable<ComponentDoc["slots"]>[number];
+} => {
+  const slots = Object.fromEntries(
+    (component.slots ?? []).map((slot) => {
+      return [slot.name, slot];
+    })
+  );
+  return slots;
+};
+
+const generateSlotArgs = (
+  component: ComponentDoc
+): {
+  [slot: string]: Component | VNode | (() => VNode | null) | string | null;
+} => {
+  const slots = Object.fromEntries(
+    (component.slots ?? []).map((slot) => {
+      return [slot.name, () => null];
+    })
+  );
+  return slots;
 };
 
 export function defineStory<T extends Component>(
@@ -182,22 +230,36 @@ export function defineStory<T extends Component>(
     };
   }
   const docGenInfo = storyDefinition.component.__docgenInfo as ComponentDoc;
+  const controls = {
+    ...generateControls(docGenInfo),
+    ...Object.fromEntries(
+      Object.entries(storyDefinition.controls ?? {}).filter(
+        ([_k, val]) => !!val
+      )
+    ),
+  } as ReturnType<typeof generateControls>;
+  const slotControls = { ...generateSlotControls(docGenInfo) };
+  const args = { ...generateArgs(docGenInfo), ...storyDefinition.args };
+  const componentSlots = {
+    ...generateSlotArgs(docGenInfo),
+    ...storyDefinition.slotArgs,
+  } as Story<T>["slots"];
   return {
-    render: (args) =>
+    render: (renderArgs) =>
       defineComponent({
-        setup() {
-          return () => h(storyDefinition.component as any, args);
+        setup(_, { slots }) {
+          return () =>
+            h(
+              storyDefinition.component as any,
+              renderArgs.props,
+              renderArgs.slots
+            );
         },
       }),
     ...storyDefinition,
-    controls: {
-      ...generateControls(docGenInfo),
-      ...Object.fromEntries(
-        Object.entries(storyDefinition.controls ?? {}).filter(
-          ([_k, val]) => !!val
-        )
-      ),
-    } as ReturnType<typeof generateControls>,
-    args: { ...generateArgs(docGenInfo), ...storyDefinition.args },
+    controls,
+    slotControls,
+    args,
+    slots: componentSlots,
   };
 }

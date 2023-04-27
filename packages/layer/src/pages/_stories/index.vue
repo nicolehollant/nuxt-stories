@@ -9,6 +9,7 @@
               () => {
                 query.component = component.value
                 query.controls = {}
+                query.slots = {}
               }
             "
             class="text-xs sm:text-sm"
@@ -27,6 +28,7 @@
                   () => {
                     query.component = childComponent.value
                     query.controls = {}
+                    query.slots = {}
                   }
                 "
                 class="text-xs sm:text-sm"
@@ -111,6 +113,7 @@
           </button>
         </header>
         <div class="grid p-4" v-if="state.controls.open">
+          <h3 class="text-lg pb-4 text-blue-400 uppercase font-semibold border-b border-neutral-900">Props</h3>
           <label
             v-for="(control, label, index) in activeComponent.controls"
             class="grid gap-1 py-6"
@@ -133,6 +136,27 @@
               :elements="activeComponent.controls[label].type?.elements"
               :model-value="(query.controls as any)?.[label] ?? (label in activeComponent.args ? activeComponent.args[label] : '')"
               @update:model-value="(val: any) => (query.controls as any)[label] = val"
+            />
+          </label>
+          <h3 class="text-lg pb-4 text-blue-400 uppercase font-semibold border-b border-neutral-900">Slots</h3>
+          <label
+            v-for="(control, label, index) in activeComponent.slotControls"
+            class="grid gap-1 py-6"
+            :class="{ 'border-t border-neutral-900': index! > 0 }"
+          >
+            <details>
+              <summary class="text-neutral-600 text-xs">
+                <p class="inline ml-1 text-base text-neutral-200">
+                  {{ label }}
+                </p>
+              </summary>
+              <pre class="text-xs text-neutral-300 p-1 rounded-lg bg-black/40 my-0.5"><code>{{ control }}</code></pre>
+            </details>
+            <StoryControl
+              controlType="string"
+              type="string"
+              :model-value="(query.slots as any)?.[label] ?? (label in activeComponent.slots ? activeComponent.slots[label] : '')"
+              @update:model-value="(val: any) => (query.slots as any)[label] = val"
             />
           </label>
         </div>
@@ -195,6 +219,7 @@ const state = reactive({
 const query = reactive({
   component: '',
   controls: {},
+  slots: {},
 })
 
 const activeComponent = computed(() => {
@@ -212,7 +237,7 @@ const activeComponent = computed(() => {
 })
 
 const queryString = computed(() => {
-  return `component=${query.component}&controls=${JSON.stringify(query.controls)}`
+  return `component=${query.component}&controls=${JSON.stringify(query.controls)}&slots=${JSON.stringify(query.slots)}`
 })
 
 const route = useRoute()
@@ -228,6 +253,7 @@ onMounted(() => {
   if (route.query) {
     query.component = route.query.component + ''
     query.controls = tryParseOrEmptyObject(route.query.controls + '')
+    query.slots = tryParseOrEmptyObject(route.query.slots + '')
   }
 })
 </script>
