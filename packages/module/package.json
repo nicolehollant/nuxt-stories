@@ -28,7 +28,7 @@
     "url": "https://github.com/nicolehollant/nuxt-stories/issues"
   },
   "scripts": {
-    "install": "pnpm install -w module",
+    "postinstall": "nuxt-module-build --stub",
     "prepack": "nuxt-module-build",
     "build": "nuxt-module-build --stub && nuxi prepare playground && nuxt-module-build",
     "dev": "nuxi dev playground",
