@@ -7,4 +7,8 @@ export default defineNuxtConfig({
   //   global: true,
   //   dirs: ['~/components'],
   // },
+  nuxtStories: {
+    title: 'Example Stories',
+    autoStoriesGlob: ['/**/components/**/*.vue'],
+  },
 })

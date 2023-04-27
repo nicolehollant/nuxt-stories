@@ -1,7 +1,9 @@
 <template>
   <div class="grid grid-cols-[auto,minmax(0,1fr)] h-full">
     <aside class="pb-8 border-r border-neutral-600 h-full">
-      <h1 class="w-full p-4 border-b border-neutral-600 text-xl h-16 flex items-center">Nuxt Stories</h1>
+      <h1 class="w-full p-4 border-b border-neutral-600 text-xl h-16 flex items-center">
+        {{ title || 'Nuxt Stories' }}
+      </h1>
       <nav class="space-y-2 mt-4 px-4">
         <li class="list-none" v-for="component in components">
           <button
@@ -167,7 +169,7 @@
 
 <script setup lang="tsx">
 import { DraggableResizableVue, DraggableResizableContainer } from 'draggable-resizable-vue3'
-import { getStories } from '#stories'
+import { getStories, title } from '#stories'
 
 const tryParseOrEmptyObject = (val: string) => {
   try {

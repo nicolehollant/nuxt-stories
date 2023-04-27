@@ -1,6 +1,7 @@
 <template>
   <div class="p-4">
-    <Component :is="Comp"></Component>
+    <p v-if="Comp == null">Please select a component</p>
+    <Component v-else :is="Comp"></Component>
   </div>
 </template>
 
@@ -40,12 +41,17 @@ const mapSlotsWithoutTemplate = ([key, value]: [string, unknown]) => {
 const mapSlotsWithTemplate = ([key, value]: [string, unknown]) => {
   return [
     key,
-    () =>
-      h(
-        defineComponent({
-          template: value + '',
-        })
-      ),
+    () => {
+      try {
+        return h(
+          defineComponent({
+            template: value + '',
+          })
+        )
+      } catch (error) {
+        return value
+      }
+    },
   ]
 }
 
@@ -69,6 +75,6 @@ const Comp = computed(() => {
   if (route.query.component === 'auto-stories') {
     return AutoStoryDocs
   }
-  return Loading
+  return null
 })
 </script>

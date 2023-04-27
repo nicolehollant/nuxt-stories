@@ -23,6 +23,7 @@ higher priority:
 
 lower priority:
 
+- [ ] better collision detection for stories with the same name (both for auto stories and regular stories i think)
 - [ ] support different sized canvases
 - [ ] support light/dark mode
 - [ ] support controls on the right?
