@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@formkit/auto-animate": "^1.0.0-beta.6",
-    "@nuxt-fable/module": "workspace:*",
+    "@nuxt-fable/module": "0.0.3",
     "@nuxtjs/tailwindcss": "^6.6.6",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tailwindcss/forms": "^0.5.3",
@@ -34,5 +34,8 @@
     "ufo": "^1.1.1",
     "vue": "^3.2.47"
   },
-  "gitHead": "975640194efa4f7f46246caeb76560f12fe524cf"
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "f5462c04bf71754641b56854a1881c7865ac1646"
 }
