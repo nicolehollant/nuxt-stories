@@ -10,79 +10,51 @@ peep the [repo guide](./REPO_GUIDE.md)
 
 higher priority:
 
-- [ ] publish the module
+- [ ] remove post-install scripts from `@nuxt-fable/module` or something like that 
+```sh
+# installation in a new project:
+$/my-app: npm i @nuxt-fable/layer
+    npm ERR! code 127
+    npm ERR! path ~/tmp/nuxt-story-test/my-app/node_modules/@nuxt-fable/module
+    npm ERR! command failed
+    npm ERR! command sh -c -- nuxt-module-build --stub && pnpm dev:prepare
+    npm ERR! sh: nuxt-module-build: command not found
+
+    npm ERR! A complete log of this run can be found in:
+    npm ERR!     ~/.npm/_logs/2023-04-28T11_44_39_265Z-debug-0.log
+```
+- [ ] remove `nuxt-icon` from `@nuxt-fable/layer`
+- [ ] remove tailwind from `@nuxt-fable/layer`
 - [ ] make module better ?
-- [ ] figure out how to get vercel to work for this...
-  - pipeline should be:
-    - install for the module
-    - build module
-    - install for the layer (can't do this until module is build bc postinstall would fail)
-    - build layer (? maybe this doesnt need to happen)
-    - install for apps
-    - build apps
 
 lower priority:
 
+- [ ] add auto-docs like storybook has?
 - [ ] better collision detection for stories with the same name (both for auto stories and regular stories i think)
 - [ ] support different sized canvases
 - [ ] support light/dark mode
 - [ ] support controls on the right?
 - [ ] support custom controls ?
-- [ ] get rid of tailwind probably
 - [ ] nuxt generate stories only?
 - [ ] nuxt generate and ignore stories?
 - [ ] improve navbar (maybe use default exported story as roots, and put other exports under it?)
 - [ ] write docs (eventually) and have more examples?
 - [ ] make controls better
 - [ ] make autogen stories more configurable
+- [ ] look more into compatibility stuff
 
 ## Todone:
 
+- [x] publish the module
 - [x] support slots
 - [x] autogen stories for things in components dir
 - [x] make this a monorepo (docs, module, layer, playground, any recipes or whatever idk)
+- [x] figure out how to get vercel to work for this...
 - [x] separate UI out into a layer
 - [x] actually make a module
 - [x] sync query string between iframe and main page
 - [x] support a resizeable canvas
-- [x] ig we need to do controls w codegen, forgot stuff compiles like this:
-```js
-import {a as o, o as p, b as r, t as e} from "./entry.5e7b0b8a.js";
-const t = {
-    class: "p-4 rounded-lg text-neutral-200 text-sm"
-}
-  , _ = o({
-    __name: "Debugger",
-    props: {
-        prop_string: null,
-        prop_object: null,
-        prop_null: null,
-        prop_number: null,
-        prop_boolean: {
-            type: Boolean
-        },
-        prop_function: {
-            type: Function
-        },
-        prop_undefined: null,
-        prop_array: null
-    },
-    setup(n) {
-        return (l,u)=>(p(),
-        r("pre", t, e({
-            prop_string: n.prop_string,
-            prop_object: n.prop_object,
-            prop_null: n.prop_null,
-            prop_number: n.prop_number,
-            prop_boolean: n.prop_boolean,
-            prop_function: n.prop_function,
-            prop_undefined: n.prop_undefined,
-            prop_array: n.prop_array
-        }), 1))
-    }
-});
-export {_};
-```
+- [x] ig we need to do controls w codegen, forgot stuff compiles 
 
 <details>
 
