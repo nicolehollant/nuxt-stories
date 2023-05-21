@@ -1,22 +1,18 @@
 <template>
-  <label :class="$xClass('grid gap-1', classes?.wrapper)">
-    <div :class="$xClass(labelSide === 'top' ? 'grid gap-1' : 'flex items-center gap-2', classes?.labelWrapper)">
+  <label :class="$xClass('field-label', classes?.wrapper)">
+    <div :class="$xClass(labelSide === 'top' ? 'field-label' : 'field-label-horizontal', classes?.labelWrapper)">
       <template v-if="labelSide !== 'right'">
         <slot name="label">
-          <p :class="$xClass('text-sm text-neutral-50', classes?.label)" v-if="label">{{ label }}</p>
+          <p :class="$xClass('text-label', classes?.label)" v-if="label">{{ label }}</p>
         </slot>
       </template>
-
+      <div class="border-neutral-700"></div>
       <div
         :class="{
           ...(modelValue
-            ? $xClass('bg-blue-600', classes?.inputActive)
-            : $xClass('bg-neutral-800', classes?.inputInactive)),
-          ...$xClass(
-            'rounded-lg  flex items-center justify-center border border-neutral-700 ' +
-              (size === 'input' ? 'w-[42px] h-[42px] text-2xl' : 'w-8 h-8 text-lg'),
-            classes?.input
-          ),
+            ? $xClass('checkbox-active', classes?.inputActive)
+            : $xClass('checkbox-inactive', classes?.inputInactive)),
+          ...$xClass('field-wrapper ' + (size === 'input' ? 'field-size-input' : 'field-size-base'), classes?.input),
         }"
       >
         <input
@@ -29,15 +25,15 @@
       </div>
       <template v-if="labelSide === 'right'">
         <slot name="label">
-          <p :class="$xClass('text-sm text-neutral-50', classes?.label)" v-if="label">{{ label }}</p>
+          <p :class="$xClass('text-label', classes?.label)" v-if="label">{{ label }}</p>
         </slot>
       </template>
     </div>
     <slot name="hint">
-      <p :class="$xClass('text-xs italic text-neutral-300', classes?.hint)" v-if="hint">{{ hint }}</p>
+      <p :class="$xClass('text-hint', classes?.hint)" v-if="hint">{{ hint }}</p>
     </slot>
     <slot name="error">
-      <p :class="$xClass('text-sm text-red-300', classes?.error)" v-if="error">{{ error }}</p>
+      <p :class="$xClass('text-error', classes?.error)" v-if="error">{{ error }}</p>
     </slot>
   </label>
 </template>

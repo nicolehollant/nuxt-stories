@@ -1,5 +1,5 @@
 <template>
-  <div class="p-4">
+  <div style="padding: 1rem">
     <p v-if="Comp == null">Please select a component</p>
     <Component v-else :is="Comp"></Component>
   </div>

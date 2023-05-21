@@ -1,25 +1,17 @@
 <template>
-  <label :class="$xClass('grid gap-1', classes?.wrapper)">
+  <label :class="$xClass('field-label', classes?.wrapper)">
     <slot name="label">
-      <p :class="$xClass('text-sm text-neutral-50', classes?.label)" v-if="label">{{ label }}</p>
+      <p :class="$xClass('text-label', classes?.label)" v-if="label">{{ label }}</p>
     </slot>
     <div
       v-if="multiline"
-      :class="
-        $xClass(
-          [
-            'w-full rounded-lg bg-neutral-800 p-2 font-medium text-neutral-50 border grid relative h-max',
-            error ? 'border-red-700' : 'border-neutral-700',
-          ].join(' '),
-          classes?.input
-        )
-      "
+      :class="$xClass(['field-input auto-grow', error ? 'field-error' : 'field-base'].join(' '), classes?.input)"
     >
       <textarea
         style="grid-area: 1 / 1 / 2 / 2"
         v-bind="$attrs"
         :value="modelValue"
-        class="bg-transparent resize-none border-none outline-none ring-0 focus:outline-none focus:ring-0 p-0 overflow-hidden"
+        class="field-textarea"
         @input="(e: any) => $emit('update:modelValue', e.target.value)"
       />
       <div style="grid-area: 1 / 1 / 2 / 2" class="whitespace-pre-wrap invisible">
@@ -29,25 +21,17 @@
     <input
       v-else
       :type="type ?? 'text'"
-      :class="
-        $xClass(
-          [
-            'w-full rounded-lg bg-neutral-800 p-2 font-medium text-neutral-50 border',
-            error ? 'border-red-700' : 'border-neutral-700',
-          ].join(' '),
-          classes?.input
-        )
-      "
+      :class="$xClass(['field-input', error ? 'field-error' : 'field-base'].join(' '), classes?.input)"
       v-bind="$attrs"
       :value="modelValue"
       @input="(e: any) => $emit('update:modelValue', e.target.value)"
     />
 
     <slot name="hint">
-      <p :class="$xClass('text-xs italic text-neutral-300', classes?.hint)" v-if="hint">{{ hint }}</p>
+      <p :class="$xClass('text-hint', classes?.hint)" v-if="hint">{{ hint }}</p>
     </slot>
     <slot name="error">
-      <p :class="$xClass('text-sm text-red-300', classes?.error)" v-if="error">{{ error }}</p>
+      <p :class="$xClass('text-error', classes?.error)" v-if="error">{{ error }}</p>
     </slot>
   </label>
 </template>
