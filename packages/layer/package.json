@@ -1,6 +1,6 @@
 {
   "name": "@nuxt-fable/layer",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "main": "./nuxt.config.ts",
   "scripts": {
     "build": "nuxt build",
