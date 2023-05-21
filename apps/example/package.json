@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@nuxt-fable/layer": "workspace:*",
-    "@nuxt-fable/module": "workspace:*"
+    "@nuxt-fable/module": "workspace:*",
+    "@nuxtjs/tailwindcss": "^6.7.0"
   }
 }
