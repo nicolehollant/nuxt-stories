@@ -33,9 +33,24 @@ import { XClass } from '~~/../../packages/layer/src/plugins/xClass'
 
 withDefaults(
   defineProps<{
+    /**
+     * tag to render as
+     */
     as?: string
+    /**
+     * type of card
+     * @values 'basic', 'header', 'media-top'
+     */
     type?: 'basic' | 'header' | 'media-top'
+    /**
+     * title of card, renders when `type` is `header`
+     */
     title?: string
+    /**
+     * class overrides for component
+     * - wrapper: outter wrapper for the card
+     * - something else: checking whitespace
+     */
     classes?: {
       wrapper?: XClass
     }

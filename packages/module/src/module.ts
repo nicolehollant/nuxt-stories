@@ -143,6 +143,11 @@ export default defineNuxtModule<ModuleOptions>({
       name: "defineStory",
       as: "defineStory",
     });
+    addImports({
+      from: moduleResolver.resolve("runtime/useStory"),
+      name: "useStoryUtils",
+      as: "useStoryUtils",
+    });
 
     // handle vite config
     const plugins = [vueDocgenPlugin()];

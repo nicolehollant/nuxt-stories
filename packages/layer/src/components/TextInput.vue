@@ -8,13 +8,13 @@
       :class="$xClass(['field-input auto-grow', error ? 'field-error' : 'field-base'].join(' '), classes?.input)"
     >
       <textarea
-        style="grid-area: 1 / 1 / 2 / 2"
+        style="grid-area: 1 / 1 / 2 / 2; word-break: break-all"
         v-bind="$attrs"
         :value="modelValue"
         class="field-textarea"
         @input="(e: any) => $emit('update:modelValue', e.target.value)"
       />
-      <div style="grid-area: 1 / 1 / 2 / 2" class="whitespace-pre-wrap invisible">
+      <div style="grid-area: 1 / 1 / 2 / 2; white-space: pre-wrap; visibility: hidden; word-break: break-all">
         {{ modelValue + ' ' }}
       </div>
     </div>

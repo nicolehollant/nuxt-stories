@@ -38,14 +38,14 @@
   <TextInput
     v-else-if="controlType === 'null'"
     multiline
-    :model-value="modelValue"
+    :model-value="typeof modelValue == 'object' ? JSON.stringify(modelValue, null, 2) : modelValue || ''"
     @update:model-value="(v: string) => $emit('update:modelValue', v === '' ? null : tryParseOrGiveStringValue(v))"
     :label="label"
   ></TextInput>
   <TextInput
     v-else
     multiline
-    :model-value="modelValue"
+    :model-value="modelValue || ''"
     @update:model-value="(v: string) => $emit('update:modelValue', v)"
     :label="label"
   ></TextInput>

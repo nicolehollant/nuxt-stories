@@ -25,8 +25,18 @@ import { XClass } from '~~/../../packages/layer/src/plugins/xClass'
 
 withDefaults(
   defineProps<{
+    /**
+     * tag to render as
+     */
     as?: string
+    /**
+     * theme of tag
+     */
     theme?: 'primary' | 'success' | 'neutral' | 'error'
+    /**
+     * class overrides for component
+     * - tag: outter wrapper for the tag
+     */
     classes?: {
       tag?: XClass
     }

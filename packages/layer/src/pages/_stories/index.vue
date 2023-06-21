@@ -45,7 +45,7 @@
       class="fable-component-container"
       :class="{
         'fable-component-container__empty': !activeComponent,
-        'fable-component-container__controls-open': !!activeComponent && state.controls.open,
+        'fable-component-container__controls-open': !!activeComponent && state.controls.open && state.mode === 'canvas',
         'fable-component-container__controls-closed': !state.controls.open,
       }"
     >
@@ -58,8 +58,34 @@
             <p>{{ state.canvas.resizable ? 'Resizeable' : 'Fixed' }}</p>
           </button>
         </div>
+        <div v-if="!!activeComponent" class="fable-button-tab-row">
+          <button
+            @click="state.mode = 'canvas'"
+            class="fable-option-button-tab"
+            :class="{ 'fable-option-button-tab-active': state.mode === 'canvas' }"
+          >
+            <Icon name="mdi:palette"></Icon>
+            <p>Canvas</p>
+          </button>
+          <button
+            @click="state.mode = 'docs'"
+            class="fable-option-button-tab"
+            :class="{ 'fable-option-button-tab-active': state.mode === 'docs' }"
+          >
+            <Icon name="mdi:book-open-variant"></Icon>
+            <p>Docs</p>
+          </button>
+        </div>
       </header>
-      <section v-if="state.canvas.resizable" class="fable-canvas">
+      <section v-if="state.mode === 'docs'" class="fable-canvas">
+        <ComponentDocs
+          v-if="!!activeComponent && activeComponent.component?.__docgenInfo"
+          :docgen-info="activeComponent.component?.__docgenInfo"
+          :story="activeComponent"
+        ></ComponentDocs>
+        <p v-else>No active component with docs</p>
+      </section>
+      <section v-else-if="state.canvas.resizable" class="fable-canvas">
         <draggable-resizable-container :key="!!activeComponent && state.controls.open" class="fullsize">
           <draggable-resizable-vue
             v-model:h="resizableElement.height"
@@ -84,7 +110,7 @@
         </p>
       </section>
       <iframe v-else :src="`/_stories/iframe?${queryString}`" class="fullsize" />
-      <section v-if="activeComponent" class="fable-controls">
+      <section v-if="activeComponent && state.mode === 'canvas'" class="fable-controls">
         <header class="controls-header">
           <h2>Controls</h2>
           <button
@@ -122,7 +148,7 @@
               :controlType="activeComponent.controls[label].type?.controlType"
               :type="activeComponent.controls[label].type?.type"
               :elements="activeComponent.controls[label].type?.elements"
-              :model-value="(query.controls as any)?.[label] ?? (label in activeComponent.args ? activeComponent.args[label] : '')"
+              :model-value="(query.controls as any)?.[label] ?? (label in activeComponent.args ? (activeComponent.args as any)[label] : '')"
               @update:model-value="(val: any) => (query.controls as any)[label] = val"
             />
           </label>
@@ -202,6 +228,7 @@ const state = reactive({
   canvas: {
     resizable: false,
   },
+  mode: 'canvas' as 'canvas' | 'docs',
 })
 
 const query = reactive({
@@ -252,11 +279,14 @@ onMounted(() => {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   height: 100%;
+  overflow: hidden;
 }
 .fable-aside {
   padding-bottom: 2rem /* 32px */;
   border-right: 1px solid rgb(82, 82, 82);
   height: 100%;
+  display: grid;
+  grid-template-rows: auto minmax(0px, 1fr);
 }
 .fable-aside h1 {
   width: 100%;
@@ -276,10 +306,14 @@ onMounted(() => {
   margin-top: 1rem;
   padding-left: 1rem;
   padding-right: 1rem;
+  overflow: auto;
+  max-height: 100%;
+  height: max-content;
 }
 
 .fable-main nav li {
   list-style-type: none;
+  height: max-content;
 }
 
 .fable-main nav li button {
@@ -308,6 +342,7 @@ onMounted(() => {
   width: 100%;
   height: 100%;
   display: grid;
+  overflow: auto;
 }
 
 .fable-component-container__empty {
@@ -356,13 +391,14 @@ onMounted(() => {
 
 .fable-option-button {
   display: flex;
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   align-items: center;
   border-radius: 0.5rem;
   gap: 0.75rem;
+  height: 36px;
   background-color: rgb(23, 23, 23);
 }
 .fable-option-button:hover {
@@ -376,14 +412,49 @@ onMounted(() => {
   margin: 0;
 }
 
+.fable-button-tab-row {
+  display: flex;
+  align-items: center;
+  background-color: rgb(23, 23, 23);
+  padding: 0.25rem;
+  border-radius: 0.5rem;
+  gap: 0.25rem;
+  height: 36px;
+}
+
+.fable-option-button-tab-active {
+  background-color: rgb(38, 38, 38);
+}
+.fable-option-button-tab {
+  display: flex;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  align-items: center;
+  border-radius: 0.5rem;
+  gap: 0.5rem;
+}
+.fable-option-button-tab:hover {
+  background-color: rgb(3, 3, 3);
+}
+.fable-option-button-tab p {
+  font-size: 0.875rem;
+  line-height: 1.2rem;
+  font-weight: 500;
+  color: rgba(229, 229, 229, 0.8);
+  margin: 0;
+}
+
 .fable-canvas {
-  overflow: hidden;
+  overflow-x: hidden;
   position: relative;
   padding: 1rem;
   padding-right: 3rem;
   padding-bottom: 3rem;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
+  height: auto;
 }
 
 .fullsize {

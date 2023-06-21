@@ -3,11 +3,13 @@ import { defineComponent, h } from "#imports";
 import type { DefineComponent, VNode } from "nuxt/dist/app/compat/capi";
 import type { ComponentDoc } from "vue-docgen-api";
 
-type Component = (abstract new (...args: any) => any) & { props?: any } & {
+export type Component = (abstract new (...args: any) => any) & {
+  props?: any;
+} & {
   __docgenInfo?: ComponentDoc;
 };
 
-type ControlType =
+export type ControlType =
   | "string"
   | "number"
   | "boolean"
@@ -33,9 +35,17 @@ type StoryParams<T extends Component> = {
     props: InstanceType<T>["$props"];
     slots: InstanceType<T>["$slots"];
   }) => DefineComponent;
+  docs?: {
+    description?: string;
+    content?: string;
+    render?: (args: {
+      props: InstanceType<T>["$props"];
+      slots: InstanceType<T>["$slots"];
+    }) => DefineComponent;
+  };
 };
 
-type Story<T extends Component> = {
+export type Story<T extends Component> = {
   component: T;
   title: string;
   args: InstanceType<T>["$props"];
@@ -53,6 +63,25 @@ type Story<T extends Component> = {
     props: InstanceType<T>["$props"];
     slots: InstanceType<T>["$slots"];
   }) => DefineComponent;
+  docs: {
+    description: string;
+    content: string;
+    render: {
+      args: InstanceType<T>["$props"];
+      slots: {
+        [slotName in keyof Partial<InstanceType<T>["$slots"]>]?:
+          | Component
+          | VNode
+          | (() => VNode | null)
+          | string
+          | null;
+      };
+      defaultRenderer: (args: {
+        props: InstanceType<T>["$props"];
+        slots: InstanceType<T>["$slots"];
+      }) => DefineComponent;
+    };
+  };
 };
 
 export const tryParseOrDefault = (
@@ -73,7 +102,7 @@ export const tryParseOrDefault = (
   }
 };
 
-const propTypeToControlValue = (propType: ControlType) => {
+export const propTypeToControlValue = (propType: ControlType) => {
   return {
     string: "",
     number: 0,
@@ -85,7 +114,7 @@ const propTypeToControlValue = (propType: ControlType) => {
   }[propType];
 };
 
-const parseComponentDocProps = (
+export const parseComponentDocProps = (
   type: any
 ): { type: string; controlType: ControlType; elements?: any[] } => {
   const primitiveTypeMap = {
@@ -145,7 +174,7 @@ const parseComponentDocProps = (
   return { type: type?.name, controlType: "null" };
 };
 
-const generateControls = (
+export const generateControls = (
   component: ComponentDoc
 ): {
   [prop: string]: {
@@ -168,7 +197,7 @@ const generateControls = (
   return props;
 };
 
-const generateArgs = (
+export const generateArgs = (
   component: ComponentDoc
 ): {
   [prop: string]: ReturnType<typeof propTypeToControlValue> | undefined;
@@ -193,7 +222,7 @@ const generateArgs = (
   return props;
 };
 
-const generateSlotControls = (
+export const generateSlotControls = (
   component: ComponentDoc
 ): {
   [slot: string]: NonNullable<ComponentDoc["slots"]>[number];
@@ -206,14 +235,19 @@ const generateSlotControls = (
   return slots;
 };
 
-const generateSlotArgs = (
+export const generateSlotArgs = (
   component: ComponentDoc
 ): {
   [slot: string]: Component | VNode | (() => VNode | null) | string | null;
 } => {
+  // const slots = Object.fromEntries(
+  //   (component.slots ?? []).map((slot) => {
+  //     return [slot.name, () => null];
+  //   })
+  // );
   const slots = Object.fromEntries(
     (component.slots ?? []).map((slot) => {
-      return [slot.name, () => null];
+      return [slot.name, null];
     })
   );
   return slots;
@@ -261,5 +295,38 @@ export function defineStory<T extends Component>(
     slotControls,
     args,
     slots: componentSlots,
+    docs: {
+      content: storyDefinition?.docs?.content || "",
+      description: storyDefinition?.docs?.description || "",
+      render: {
+        args: generateArgs(docGenInfo),
+        slots: generateSlotArgs(docGenInfo) as Story<T>["slots"],
+        defaultRenderer: (renderArgs) =>
+          defineComponent({
+            setup(_, { slots }) {
+              return () =>
+                h(
+                  storyDefinition.component as any,
+                  renderArgs.props,
+                  renderArgs.slots
+                );
+            },
+          }),
+      },
+    },
   };
 }
+
+export const useStoryUtils = () => {
+  return {
+    tryParseOrDefault,
+    propTypeToControlValue,
+    parseComponentDocProps,
+    generateControls,
+    generateArgs,
+    generateSlotControls,
+    generateSlotArgs,
+    defineStory,
+    useStoryUtils,
+  };
+};

@@ -19,7 +19,7 @@
           type="checkbox"
           :checked="modelValue"
           class="sr-only"
-          @input="$emit('update:modelValue', $event.target.checked)"
+          @input="$emit('update:modelValue', ($event.target as any).checked)"
         />
         <Icon name="mdi:check" v-if="modelValue"></Icon>
       </div>
@@ -46,6 +46,9 @@ defineEmits<{
 }>()
 withDefaults(
   defineProps<{
+    /**
+     * size of checkbox, use 'input' to match the height of a TextInput
+     */
     size?: 'base' | 'input'
     modelValue: boolean
     label?: string
@@ -53,6 +56,9 @@ withDefaults(
     hint?: string
     error?: string
     type?: string
+    /**
+     * optional class overrides
+     */
     classes?: {
       wrapper?: XClass
       label?: XClass

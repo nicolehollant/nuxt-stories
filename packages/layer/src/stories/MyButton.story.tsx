@@ -1,4 +1,3 @@
-// import { defineStory } from '#story-utils'
 import MyButton from '../components/MyButton.vue'
 
 export default defineStory({
@@ -11,6 +10,9 @@ export default defineStory({
   slotArgs: {
     default: () => <div>hiasjdhfkansdhfa</div>,
   },
+  docs: {
+    description: 'its a button',
+  },
 })
 
 export const hello = defineStory({
@@ -21,6 +23,12 @@ export const hello = defineStory({
     theme: 'secondary',
   },
   render: (args) => defineComponent(() => () => <MyButton {...args.props}></MyButton>),
+  docs: {
+    description: 'its a button',
+    args: {
+      label: 'Hello World',
+    },
+  },
 })
 
 export const world = defineStory({
@@ -31,4 +39,7 @@ export const world = defineStory({
     theme: 'tertiary',
   },
   render: (args) => defineComponent(() => () => <MyButton {...args.props}></MyButton>),
+  docs: {
+    description: 'its a button',
+  },
 })
