@@ -1,4 +1,5 @@
 import { defineComponent, h } from "#imports";
+import { defu } from "defu";
 // import { defineComponent, h, type VNode } from "vue";
 import type { DefineComponent, VNode } from "nuxt/dist/app/compat/capi";
 import type { ComponentDoc } from "vue-docgen-api";
@@ -317,6 +318,25 @@ export function defineStory<T extends Component>(
   };
 }
 
+export const storyFactory = <T extends Component>(
+  base: StoryParams<T>,
+  overrides?: Partial<StoryParams<T>>
+): {
+  params: StoryParams<T>;
+  component: Story<T>;
+  extend: (overrides: Partial<StoryParams<T>>) => Story<T>;
+  extendArgs: (overrides: Partial<StoryParams<T>["args"]>) => Story<T>;
+} => {
+  const params = !!overrides ? defu(base, overrides) : base;
+  return {
+    params,
+    component: defineStory(params),
+    extend: (overrides) => storyFactory(params, overrides).component,
+    extendArgs: (overrides) =>
+      storyFactory(params, { args: overrides }).component,
+  };
+};
+
 export const useStoryUtils = () => {
   return {
     tryParseOrDefault,
@@ -328,5 +348,6 @@ export const useStoryUtils = () => {
     generateSlotArgs,
     defineStory,
     useStoryUtils,
+    storyFactory,
   };
 };

@@ -145,6 +145,11 @@ export default defineNuxtModule<ModuleOptions>({
     });
     addImports({
       from: moduleResolver.resolve("runtime/useStory"),
+      name: "storyFactory",
+      as: "storyFactory",
+    });
+    addImports({
+      from: moduleResolver.resolve("runtime/useStory"),
       name: "useStoryUtils",
       as: "useStoryUtils",
     });

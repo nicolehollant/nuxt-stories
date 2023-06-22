@@ -1,6 +1,7 @@
 <template>
   <main class="fable-main">
-    <aside class="fable-aside">
+    <button class="fable-aside-open-backdrop" @click="state.nav.open = false"></button>
+    <aside class="fable-aside" :class="{ 'fable-aside__open': state.nav.open, 'fable-aside__closed': !state.nav.open }">
       <h1>
         {{ title || 'Nuxt Stories' }}
       </h1>
@@ -49,34 +50,44 @@
         'fable-component-container__controls-closed': !state.controls.open,
       }"
     >
-      <header class="fable-component-header">
-        <h2>{{ activeComponent?.title ?? 'Nuxt Stories' }}</h2>
-        <div v-if="!!activeComponent" class="fable-component-header-separator"></div>
-        <div v-if="!!activeComponent" class="fable-button-row">
-          <button @click="state.canvas.resizable = !state.canvas.resizable" class="fable-option-button">
-            <Icon name="mdi:responsive"></Icon>
-            <p>{{ state.canvas.resizable ? 'Resizeable' : 'Fixed' }}</p>
-          </button>
-        </div>
-        <div v-if="!!activeComponent" class="fable-button-tab-row">
-          <button
-            @click="state.mode = 'canvas'"
-            class="fable-option-button-tab"
-            :class="{ 'fable-option-button-tab-active': state.mode === 'canvas' }"
-          >
-            <Icon name="mdi:palette"></Icon>
-            <p>Canvas</p>
-          </button>
-          <button
-            @click="state.mode = 'docs'"
-            class="fable-option-button-tab"
-            :class="{ 'fable-option-button-tab-active': state.mode === 'docs' }"
-          >
-            <Icon name="mdi:book-open-variant"></Icon>
-            <p>Docs</p>
-          </button>
-        </div>
-      </header>
+      <div>
+        <h2 class="small-hidden" style="margin: 0; padding: 1rem; border-bottom: 1px dotted rgb(82, 82, 82)">
+          {{ activeComponent?.title ?? 'Nuxt Stories' }}
+        </h2>
+        <header class="fable-component-header">
+          <h2 class="small-block">{{ activeComponent?.title ?? 'Nuxt Stories' }}</h2>
+          <div v-if="!!activeComponent" class="small-block fable-component-header-separator"></div>
+          <div v-if="!!activeComponent" class="fable-button-row">
+            <button @click="state.canvas.resizable = !state.canvas.resizable" class="fable-option-button">
+              <Icon name="mdi:responsive"></Icon>
+              <p class="small-block">{{ state.canvas.resizable ? 'Resizeable' : 'Fixed' }}</p>
+            </button>
+          </div>
+          <div v-if="!!activeComponent" class="fable-button-tab-row">
+            <button
+              @click="state.mode = 'canvas'"
+              class="fable-option-button-tab"
+              :class="{ 'fable-option-button-tab-active': state.mode === 'canvas' }"
+            >
+              <Icon name="mdi:palette"></Icon>
+              <p class="small-block">Canvas</p>
+            </button>
+            <button
+              @click="state.mode = 'docs'"
+              class="fable-option-button-tab"
+              :class="{ 'fable-option-button-tab-active': state.mode === 'docs' }"
+            >
+              <Icon name="mdi:book-open-variant"></Icon>
+              <p class="small-block">Docs</p>
+            </button>
+          </div>
+          <div class="fable-button-row small-hidden" style="margin-left: auto">
+            <button @click="state.nav.open = !state.nav.open" class="fable-option-button">
+              <Icon name="mdi:menu"></Icon>
+            </button>
+          </div>
+        </header>
+      </div>
       <section v-if="state.mode === 'docs'" class="fable-canvas">
         <ComponentDocs
           v-if="!!activeComponent && activeComponent.component?.__docgenInfo"
@@ -85,7 +96,7 @@
         ></ComponentDocs>
         <p v-else>No active component with docs</p>
       </section>
-      <section v-else-if="state.canvas.resizable" class="fable-canvas">
+      <section v-else-if="state.canvas.resizable" class="fable-canvas fable-canvas-resizeable">
         <draggable-resizable-container :key="!!activeComponent && state.controls.open" class="fullsize">
           <draggable-resizable-vue
             v-model:h="resizableElement.height"
@@ -229,6 +240,9 @@ const state = reactive({
     resizable: false,
   },
   mode: 'canvas' as 'canvas' | 'docs',
+  nav: {
+    open: false,
+  },
 })
 
 const query = reactive({
@@ -277,7 +291,6 @@ onMounted(() => {
 /* page */
 .fable-main {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
   height: 100%;
   overflow: hidden;
 }
@@ -285,7 +298,6 @@ onMounted(() => {
   padding-bottom: 2rem /* 32px */;
   border-right: 1px solid rgb(82, 82, 82);
   height: 100%;
-  display: grid;
   grid-template-rows: auto minmax(0px, 1fr);
 }
 .fable-aside h1 {
@@ -374,7 +386,7 @@ onMounted(() => {
   width: 100%;
   height: 4rem;
   border-bottom: 1px solid rgb(82, 82, 82);
-  gap: 2rem;
+  gap: 1rem;
 }
 
 .fable-component-header-separator {
@@ -393,12 +405,12 @@ onMounted(() => {
   display: flex;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   align-items: center;
   border-radius: 0.5rem;
   gap: 0.75rem;
-  height: 36px;
+  height: 32px;
   background-color: rgb(23, 23, 23);
 }
 .fable-option-button:hover {
@@ -419,7 +431,7 @@ onMounted(() => {
   padding: 0.25rem;
   border-radius: 0.5rem;
   gap: 0.25rem;
-  height: 36px;
+  height: 32px;
 }
 
 .fable-option-button-tab-active {
@@ -429,8 +441,8 @@ onMounted(() => {
   display: flex;
   padding-top: 0.25rem;
   padding-bottom: 0.25rem;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
+  padding-left: 0.25rem;
+  padding-right: 0.25rem;
   align-items: center;
   border-radius: 0.5rem;
   gap: 0.5rem;
@@ -450,11 +462,13 @@ onMounted(() => {
   overflow-x: hidden;
   position: relative;
   padding: 1rem;
-  padding-right: 3rem;
-  padding-bottom: 3rem;
   width: 100%;
   min-height: 100%;
   height: auto;
+}
+.fable-canvas-resizeable {
+  padding-right: 3rem;
+  padding-bottom: 3rem;
 }
 
 .fullsize {
@@ -653,5 +667,91 @@ onMounted(() => {
 }
 .drv {
   border: none !important;
+}
+
+.fable-aside__open {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 100;
+  height: 100dvh;
+  background-color: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(4px);
+  min-width: max(260px, 64vw);
+}
+
+.fable-aside__closed {
+  display: none;
+}
+
+.fable-aside-open-backdrop {
+  display: none;
+}
+
+.fable-main:has(.fable-aside__open) .fable-aside-open-backdrop {
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #00000040;
+  backdrop-filter: blur(2px);
+  z-index: 10;
+  grid-area: 3;
+}
+
+.small-block {
+  display: none;
+}
+
+@media (min-width: 640px) {
+  .fable-component-header {
+    gap: 2rem;
+  }
+  .fable-option-button {
+    padding-left: 0.75rem;
+    padding-right: 0.75rem;
+    height: 36px;
+  }
+
+  .fable-button-tab-row {
+    height: 36px;
+  }
+
+  .fable-option-button-tab {
+    padding-top: 0.25rem;
+    padding-bottom: 0.25rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+  }
+
+  .fable-main {
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .fable-aside__open {
+    position: static;
+    top: unset;
+    left: unset;
+    z-index: unset;
+    min-width: 0;
+  }
+
+  .fable-aside,
+  .fable-aside__closed {
+    display: grid;
+  }
+  .small-hidden {
+    display: none;
+  }
+  .small-block {
+    display: block;
+  }
+  .fable-aside-open-backdrop {
+    display: none;
+  }
+  .fable-main:has(.fable-aside__open) .fable-aside-open-backdrop {
+    display: none;
+  }
 }
 </style>

@@ -90,6 +90,9 @@ importers:
       '@rollup/pluginutils':
         specifier: ^5.0.2
         version: 5.0.2
+      defu:
+        specifier: ^6.1.2
+        version: 6.1.2
       estree-walker:
         specifier: ^3.0.3
         version: 3.0.3
@@ -2238,7 +2241,7 @@ packages:
       '@babel/core': 7.21.4
       '@babel/plugin-transform-typescript': 7.21.3(@babel/core@7.21.4)
       '@vue/babel-plugin-jsx': 1.1.1(@babel/core@7.21.4)
-      vite: 4.3.3
+      vite: 4.3.3(@types/node@18.0.0)
       vue: 3.2.47
     transitivePeerDependencies:
       - supports-color
@@ -2251,7 +2254,7 @@ packages:
       vite: ^4.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 4.3.3
+      vite: 4.3.3(@types/node@18.0.0)
       vue: 3.2.47
     dev: true
 
