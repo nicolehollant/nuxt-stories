@@ -15,20 +15,20 @@
     "@types/splitpanes": "^2.2.1",
     "nuxt": "3.4.2",
     "nuxt-icon": "^0.1.8",
-    "vue-docgen-api": "^4.69.0"
+    "vue-docgen-api": "^4.73.0"
   },
   "dependencies": {
-    "@formkit/auto-animate": "^1.0.0-beta.6",
-    "@nuxt-fable/module": "0.0.5",
-    "@vitejs/plugin-vue": "^4.1.0",
-    "draggable-resizable-vue3": "^1.0.94-beta",
+    "@formkit/auto-animate": "1.0.0-pre-alpha.3",
+    "@nuxt-fable/module": "workspace:0.0.5",
+    "@vitejs/plugin-vue": "^4.2.3",
+    "draggable-resizable-vue3": "1.0.94-beta",
     "fast-glob": "^3.2.12",
-    "highlight.js": "^11.7.0",
-    "nanoid": "^4.0.0",
+    "highlight.js": "^11.8.0",
+    "nanoid": "^4.0.2",
     "outdent": "^0.8.0",
-    "pathe": "^1.1.0",
-    "ufo": "^1.1.1",
-    "vue": "^3.2.47"
+    "pathe": "^1.1.1",
+    "ufo": "^1.1.2",
+    "vue": "^3.3.4"
   },
   "publishConfig": {
     "access": "public"

@@ -4,6 +4,7 @@ import {
   addTemplate,
   updateTemplates,
   addImports,
+  addImportsDir,
 } from "@nuxt/kit";
 import glob from "fast-glob";
 import { extname } from "pathe";
@@ -138,6 +139,7 @@ export default defineNuxtModule<ModuleOptions>({
       },
     }).dst;
 
+    addImportsDir(moduleResolver.resolve("runtime/types"));
     addImports({
       from: moduleResolver.resolve("runtime/useStory"),
       name: "defineStory",

@@ -1,8 +1,7 @@
 import { defineComponent, h } from "#imports";
 import { defu } from "defu";
-// import { defineComponent, h, type VNode } from "vue";
-import type { DefineComponent, VNode } from "nuxt/dist/app/compat/capi";
 import type { ComponentDoc } from "vue-docgen-api";
+import type { DefineComponent, VNode } from "nuxt/dist/app/compat/capi";
 
 export type Component = (abstract new (...args: any) => any) & {
   props?: any;
@@ -19,7 +18,7 @@ export type ControlType =
   | "array"
   | "function";
 
-type StoryParams<T extends Component> = {
+export type StoryParams<T extends Component> = {
   component: T;
   title: string;
   args?: Partial<InstanceType<T>["$props"]>;
@@ -31,7 +30,7 @@ type StoryParams<T extends Component> = {
       | string
       | null;
   };
-  controls?: Partial<ReturnType<typeof generateControls>>;
+  controls?: Partial<GenerateControlsOutput>;
   render?: (args: {
     props: InstanceType<T>["$props"];
     slots: InstanceType<T>["$slots"];
@@ -50,7 +49,7 @@ export type Story<T extends Component> = {
   component: T;
   title: string;
   args: InstanceType<T>["$props"];
-  controls: ReturnType<typeof generateControls>;
+  controls: GenerateControlsOutput;
   slots: {
     [slotName in keyof Partial<InstanceType<T>["$slots"]>]?:
       | Component
@@ -59,7 +58,7 @@ export type Story<T extends Component> = {
       | string
       | null;
   };
-  slotControls?: ReturnType<typeof generateSlotControls>;
+  slotControls?: GenerateSlotControlsOutput;
   render: (args: {
     props: InstanceType<T>["$props"];
     slots: InstanceType<T>["$slots"];
@@ -85,6 +84,48 @@ export type Story<T extends Component> = {
   };
 };
 
+export type ParseComponentDocPropsOutput = {
+  type: string;
+  controlType: ControlType;
+  elements?: any[];
+};
+
+export type GenerateControlsOutput = {
+  [prop: string]: {
+    required: boolean;
+    type: ParseComponentDocPropsOutput;
+  };
+};
+
+export type GenerateSlotArgsOutput = {
+  [slot: string]: Component | VNode | (() => VNode | null) | string | null;
+};
+
+export type GenerateArgsOutput = {
+  [prop: string]: PropTypeToControlValueOutput;
+};
+
+export type GenerateSlotControlsOutput = {
+  [slot: string]: NonNullable<ComponentDoc["slots"]>[number];
+};
+
+export type StoryFactoryOutput<T extends Component> = {
+  params: StoryParams<T>;
+  component: Story<T>;
+  extend: (overrides: Partial<StoryParams<T>>) => Story<T>;
+  extendArgs: (overrides: Partial<StoryParams<T>["args"]>) => Story<T>;
+};
+
+export type PropTypeToControlValueOutput =
+  | string
+  | number
+  | boolean
+  | {}
+  | null
+  | any[]
+  | (() => void)
+  | undefined;
+
 export const tryParseOrDefault = (
   val: string,
   replacement: any = undefined
@@ -103,7 +144,9 @@ export const tryParseOrDefault = (
   }
 };
 
-export const propTypeToControlValue = (propType: ControlType) => {
+export const propTypeToControlValue = (
+  propType: ControlType
+): PropTypeToControlValueOutput => {
   return {
     string: "",
     number: 0,
@@ -117,7 +160,7 @@ export const propTypeToControlValue = (propType: ControlType) => {
 
 export const parseComponentDocProps = (
   type: any
-): { type: string; controlType: ControlType; elements?: any[] } => {
+): ParseComponentDocPropsOutput => {
   const primitiveTypeMap = {
     string: { type: "string", controlType: "string" },
     number: { type: "number", controlType: "number" },
@@ -177,12 +220,7 @@ export const parseComponentDocProps = (
 
 export const generateControls = (
   component: ComponentDoc
-): {
-  [prop: string]: {
-    required: boolean;
-    type: ReturnType<typeof parseComponentDocProps>;
-  };
-} => {
+): GenerateControlsOutput => {
   const props = Object.fromEntries(
     (component.props ?? []).map((prop) => {
       return [
@@ -198,11 +236,7 @@ export const generateControls = (
   return props;
 };
 
-export const generateArgs = (
-  component: ComponentDoc
-): {
-  [prop: string]: ReturnType<typeof propTypeToControlValue> | undefined;
-} => {
+export const generateArgs = (component: ComponentDoc): GenerateArgsOutput => {
   const props = Object.fromEntries(
     (component.props ?? []).map((prop) => {
       const hasDefaultValue = !!prop?.defaultValue;
@@ -225,9 +259,7 @@ export const generateArgs = (
 
 export const generateSlotControls = (
   component: ComponentDoc
-): {
-  [slot: string]: NonNullable<ComponentDoc["slots"]>[number];
-} => {
+): GenerateSlotControlsOutput => {
   const slots = Object.fromEntries(
     (component.slots ?? []).map((slot) => {
       return [slot.name, slot];
@@ -238,9 +270,7 @@ export const generateSlotControls = (
 
 export const generateSlotArgs = (
   component: ComponentDoc
-): {
-  [slot: string]: Component | VNode | (() => VNode | null) | string | null;
-} => {
+): GenerateSlotArgsOutput => {
   // const slots = Object.fromEntries(
   //   (component.slots ?? []).map((slot) => {
   //     return [slot.name, () => null];
@@ -321,12 +351,7 @@ export function defineStory<T extends Component>(
 export const storyFactory = <T extends Component>(
   base: StoryParams<T>,
   overrides?: Partial<StoryParams<T>>
-): {
-  params: StoryParams<T>;
-  component: Story<T>;
-  extend: (overrides: Partial<StoryParams<T>>) => Story<T>;
-  extendArgs: (overrides: Partial<StoryParams<T>["args"]>) => Story<T>;
-} => {
+): StoryFactoryOutput<T> => {
   const params = !!overrides ? defu(base, overrides) : base;
   return {
     params,

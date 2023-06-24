@@ -15,6 +15,9 @@ export default defineStory({
   },
 })
 
+const asdf = (args: any) => <MyButton {...args.props}></MyButton>
+type foo = ReturnType<typeof asdf>
+
 export const hello = defineStory({
   component: MyButton,
   title: 'MyButton: hello',
@@ -22,12 +25,9 @@ export const hello = defineStory({
     label: 'hello',
     theme: 'secondary',
   },
-  render: (args) => defineComponent(() => () => <MyButton {...args.props}></MyButton>),
+  render: (args) => <MyButton {...args.props}>{...Object.values(args.slots).map((a) => a?.({}))}</MyButton>,
   docs: {
     description: 'its a button',
-    args: {
-      label: 'Hello World',
-    },
   },
 })
 
@@ -38,7 +38,10 @@ export const world = defineStory({
     label: 'world',
     theme: 'tertiary',
   },
-  render: (args) => defineComponent(() => () => <MyButton {...args.props}></MyButton>),
+  render: (args) =>
+    defineComponent(() => () => (
+      <MyButton {...args.props}>{...Object.values(args.slots).map((a) => a?.({}))}</MyButton>
+    )),
   docs: {
     description: 'its a button',
   },
