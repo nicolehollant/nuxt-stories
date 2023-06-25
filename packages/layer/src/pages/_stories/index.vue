@@ -3,7 +3,7 @@
     <button class="fable-aside-open-backdrop" @click="state.nav.open = false"></button>
     <aside class="fable-aside" :class="{ 'fable-aside__open': state.nav.open, 'fable-aside__closed': !state.nav.open }">
       <h1>
-        {{ title || 'Nuxt Stories' }}
+        {{ title || 'Nuxt Fable' }}
       </h1>
       <nav>
         <li v-for="component in components">

@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "@nuxt-fable/example",
+  "name": "@nuxt-fable/starter",
   "scripts": {
     "build": "nuxt build",
     "dev": "nuxt dev",
