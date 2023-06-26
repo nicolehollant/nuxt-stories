@@ -1,7 +1,7 @@
 {
   "name": "@nuxt-fable/module",
   "author": "Nicole Hollant <nicolehollant@gmail.com>",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "Stories built for nuxt",
   "repository": {
     "type": "git",
