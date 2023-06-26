@@ -358,7 +358,7 @@ export const storyFactory = <T extends Component>(
   base: StoryParams<T>,
   overrides?: Partial<StoryParams<T>>
 ): StoryFactoryOutput<T> => {
-  const params = !!overrides ? defu(base, overrides) : base;
+  const params = !!overrides ? (defu(overrides, base) as StoryParams<T>) : base;
   return {
     params,
     component: defineStory(params),
