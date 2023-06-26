@@ -8,6 +8,12 @@ export type Component = (abstract new (...args: any) => any) & {
 } & {
   __docgenInfo?: ComponentDoc;
 };
+export type MaybeDefineCompnent =
+  | DefineComponent
+  | Element
+  | JSX.Element
+  | Component
+  | any;
 
 export type ControlType =
   | "string"
@@ -34,14 +40,14 @@ export type StoryParams<T extends Component> = {
   render?: (args: {
     props: InstanceType<T>["$props"];
     slots: InstanceType<T>["$slots"];
-  }) => DefineComponent;
+  }) => MaybeDefineCompnent;
   docs?: {
     description?: string;
     content?: string;
     render?: (args: {
       props: InstanceType<T>["$props"];
       slots: InstanceType<T>["$slots"];
-    }) => DefineComponent;
+    }) => MaybeDefineCompnent;
   };
 };
 
@@ -62,7 +68,7 @@ export type Story<T extends Component> = {
   render: (args: {
     props: InstanceType<T>["$props"];
     slots: InstanceType<T>["$slots"];
-  }) => DefineComponent;
+  }) => MaybeDefineCompnent;
   docs: {
     description: string;
     content: string;
@@ -79,7 +85,7 @@ export type Story<T extends Component> = {
       defaultRenderer: (args: {
         props: InstanceType<T>["$props"];
         slots: InstanceType<T>["$slots"];
-      }) => DefineComponent;
+      }) => MaybeDefineCompnent;
     };
   };
 };
