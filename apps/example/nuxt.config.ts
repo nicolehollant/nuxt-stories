@@ -6,5 +6,9 @@ export default defineNuxtConfig({
   nuxtStories: {
     title: 'Example Stories',
     autoStoriesGlob: ['/**/components/**/*.vue'],
+    ignored: {
+      storiesGlob: ['/**/components/**/Ignored.vue'],
+      autoStoriesGlob: ['/**/components/**/Ignored.vue'],
+    },
   },
 })

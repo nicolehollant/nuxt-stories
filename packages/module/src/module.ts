@@ -27,6 +27,18 @@ export interface ModuleOptions {
    * glob added after nuxt.rootDir
    */
   autoStoriesGlob?: string[];
+  /**
+   * globs to be ignored from the included globs
+   */
+  ignored?: {
+    storiesGlob?: string[];
+    autoStoriesGlob?: string[];
+  };
+}
+
+function setDifference(a: string[] = [], b: string[] = []) {
+  const setB = new Set(b);
+  return [...new Set(a)].filter((entry) => !setB.has(entry));
 }
 
 export default defineNuxtModule<ModuleOptions>({
@@ -51,7 +63,7 @@ export default defineNuxtModule<ModuleOptions>({
         const parseComponentName = (key: string) =>
           key.split("/").at(-1)?.split(".story")[0];
 
-        const autoStories = (
+        const autoStories = setDifference(
           await glob(
             options.autoStoriesGlob?.length
               ? options.autoStoriesGlob.map((g) =>
@@ -62,6 +74,13 @@ export default defineNuxtModule<ModuleOptions>({
                   "components",
                   "/**/*.vue"
                 )
+          ),
+          await glob(
+            options?.ignored?.autoStoriesGlob?.length
+              ? options.ignored.autoStoriesGlob.map((g) =>
+                  joinURL(withTrailingSlash(nuxt.options.rootDir), g)
+                )
+              : []
           )
         )
           .map((path) => {
@@ -76,7 +95,7 @@ export default defineNuxtModule<ModuleOptions>({
               !path.includes("node_modules/@nuxt-fable/module")
           );
 
-        const stories = (
+        const stories = setDifference(
           await glob(
             options.storiesGlob?.length
               ? options.storiesGlob.map((g) =>
@@ -86,6 +105,13 @@ export default defineNuxtModule<ModuleOptions>({
                   withTrailingSlash(nuxt.options.rootDir),
                   "/**/*.story.*"
                 )
+          ),
+          await glob(
+            options?.ignored?.storiesGlob?.length
+              ? options.ignored.storiesGlob.map((g) =>
+                  joinURL(withTrailingSlash(nuxt.options.rootDir), g)
+                )
+              : []
           )
         )
           .map((path) => {
